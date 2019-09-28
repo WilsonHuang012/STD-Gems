@@ -25,7 +25,7 @@ void Copy()
 	write_to_cout(b);
 	std::cout << std::endl << std::endl;
 
-	std::copy(b.begin(), b.begin() + 4, b.begin() + 3); 
+	std::copy_n(std::istream_iterator<std::string>(std::cin), 5 , b.begin()); 
 	write_to_cout(b);
 }
 
