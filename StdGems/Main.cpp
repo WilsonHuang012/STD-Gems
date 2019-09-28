@@ -27,7 +27,9 @@ void Copy()
 	write_to_cout(b);
 	std::cout << std::endl << std::endl;
 
-	std::move(a.begin(), a.begin() + 3, b.begin());
+	std::copy_if(std::make_move_iterator(a.begin()),
+		std::make_move_iterator(a.end()), b.begin(),
+		[](const std::string& str) { return str.size() > 3; });
 	write_to_cout(a, " | ");
 	std::cout << std::endl;
 	write_to_cout(b);
