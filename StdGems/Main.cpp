@@ -15,17 +15,22 @@ void write_to_cout(const Container& container, const char* delimiter = " ")
 
 void Copy()
 {
-	std::string a = "Happy Fun times With Capital letters";
-	std::string b = "otHEewiSe KNOwn as upper CASE biotches";
+	std::vector<std::string> a =
+	{ "zero", "one", "two", "three", "four",
+	  "five", "six", "seven", "eight", "nine", "ten"
+	};
+	std::vector<std::string> b =
+	{ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+
 	write_to_cout(a);
 	std::cout << std::endl;
 	write_to_cout(b);
 	std::cout << std::endl << std::endl;
 
-	std::string uppers;
-	std::copy_if(a.begin(), a.end(), std::back_inserter(uppers), std::isupper);
-	std::copy_if(b.begin(), b.end(), std::back_inserter(uppers), std::isupper);
-	write_to_cout(uppers);
+	std::move(a.begin(), a.begin() + 3, b.begin());
+	write_to_cout(a, " | ");
+	std::cout << std::endl;
+	write_to_cout(b);
 }
 
 int main()
