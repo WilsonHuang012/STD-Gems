@@ -1,53 +1,23 @@
 #include <iostream>
-#include <string>
-#include <map>
-#include <algorithm>
+#include <set>
+#include <vector>
 
 int main()
 {
-    std::map<std::string, int> map;
-    map.emplace("d", 4);
-    map.emplace("e", 5);
-    map.emplace_hint(map.find("d"), "h", 6);
-    map.insert({ "a", 1 });
-    map.insert({ "c", 3 });
-    map.insert({ "b", 2 });
-    //access an element doesn't exist
-    map["i"]; //insert the element with default value
-
-    for (auto m : map)
+    std::vector<int> list = { 1,1,2,4,5,6,7,7,8,8,0,0,12,11,11,15,77,100 };
+    std::set<int> set;
+    for (int i : list)
     {
-        std::cout << m.first << " : " << m.second << std::endl;
+        auto existed = set.insert(i);
+        if (existed.second)
+        {
+            std::cout << i << " ";
+        }
     }
-    
+
     std::cout << std::endl;
-    std::cout << "insert a existed key : a" << std::endl;
-    auto target = map.emplace("a", 0);
-    if (!target.second) //insert failed
-    {
-        std::cout << "key \"a\" is existed { "
-            << target.first->first << " : " << target.first->second
-            << " }"
-            << std::endl;
-    }
-    
-    std::cout << std::endl << "Remove value greater than 2" << std::endl;
-    for (auto i = map.begin(); i != map.end(); )
-    {
-        if (i->second > 2)
-        {
-            i = map.erase(i);
-        }
-        else
-        {
-            i++;
-        }
-    }
-
-    for (auto m : map)
-    {
-        std::cout << m.first << " : " << m.second << std::endl;
-    }
-
+    std::cout << "set:\n";
+    for (int i : set)
+        std::cout << i << " ";
     return 0;
 }
