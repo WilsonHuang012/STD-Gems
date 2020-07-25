@@ -1,23 +1,44 @@
 #include <iostream>
-#include <set>
-#include <vector>
+#include <map>
+#include <string>
+
+class MyClass
+{
+public:
+    MyClass(int x)
+        : x(x)
+    {
+
+    }
+    ~MyClass() = default;
+
+public:
+    int x;
+};
+
+struct MyClassCompare
+{
+    bool operator()(const MyClass& lhs, const MyClass& rhs) const
+    {
+        return lhs.x > rhs.x;
+    }
+};
 
 int main()
 {
-    std::vector<int> list = { 1,1,2,4,5,6,7,7,8,8,0,0,12,11,11,15,77,100 };
-    std::set<int> set;
-    for (int i : list)
-    {
-        auto existed = set.insert(i);
-        if (existed.second)
-        {
-            std::cout << i << " ";
-        }
-    }
+    std::multimap<MyClass, std::string, MyClassCompare> multiMap;
+    multiMap.emplace(MyClass(1), "aaa");
+    multiMap.emplace(MyClass(3), "gg");
+    multiMap.emplace(MyClass(5), "r");
+    multiMap.emplace(MyClass(1), "bbb");
+    multiMap.emplace(MyClass(6), "uu");
+    multiMap.emplace(MyClass(1), "ccc");
+    multiMap.emplace(MyClass(9), "df");
 
-    std::cout << std::endl;
-    std::cout << "set:\n";
-    for (int i : set)
-        std::cout << i << " ";
+    auto result = multiMap.equal_range(1);
+    for (auto i = result.first; i != result.second; i++)
+    {
+        std::cout << i->second << std::endl;
+    }
     return 0;
 }
