@@ -1,44 +1,31 @@
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <string>
+#include "Vec2.h"
 
-class MyClass
+struct HashVec2
 {
-public:
-    MyClass(int x)
-        : x(x)
+    template<typename T>
+    size_t operator()(const Vec2_<T>& vec2) const
     {
-
-    }
-    ~MyClass() = default;
-
-public:
-    int x;
-};
-
-struct MyClassCompare
-{
-    bool operator()(const MyClass& lhs, const MyClass& rhs) const
-    {
-        return lhs.x > rhs.x;
+        std::hash<T> hasher;
+        auto hashX = hasher(vec2.x);
+        auto hashY = hasher(vec2.y);
+        hashX ^= hashY + (hashX >> 4) ^ (hashY << 8);
+        return hashX;
     }
 };
 
 int main()
 {
-    std::multimap<MyClass, std::string, MyClassCompare> multiMap;
-    multiMap.emplace(MyClass(1), "aaa");
-    multiMap.emplace(MyClass(3), "gg");
-    multiMap.emplace(MyClass(5), "r");
-    multiMap.emplace(MyClass(1), "bbb");
-    multiMap.emplace(MyClass(6), "uu");
-    multiMap.emplace(MyClass(1), "ccc");
-    multiMap.emplace(MyClass(9), "df");
-
-    auto result = multiMap.equal_range(1);
-    for (auto i = result.first; i != result.second; i++)
+    std::unordered_map<Vec2, std::string, HashVec2> unordered_map =
     {
-        std::cout << i->second << std::endl;
-    }
+        { {2, 23}, "two"},
+        { {1, 20}, "one"},
+        { {10, 33}, "ten"},
+        { {55, 555}, "fifty five"},
+        { { 99, 3300 }, "ninety nine" }
+    };
+    std::cout << unordered_map[{ 55, 555 }];
     return 0;
 }
