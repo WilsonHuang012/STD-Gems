@@ -3,22 +3,23 @@
 #include <string>
 #include "Vec2.h"
 
-struct HashVec2
+namespace std
 {
-    template<typename T>
-    size_t operator()(const Vec2_<T>& vec2) const
+    template<> struct hash<Vei2>
     {
-        std::hash<T> hasher;
-        auto hashX = hasher(vec2.x);
-        auto hashY = hasher(vec2.y);
-        hashX ^= hashY + (hashX >> 4) ^ (hashY << 8);
-        return hashX;
-    }
-};
-
+        size_t operator()(const Vei2& vec2) const
+        {
+            std::hash<int> hasher;
+            auto hashX = hasher(vec2.x);
+            auto hashY = hasher(vec2.y);
+            hashX ^= hashY + (hashX >> 4) ^ (hashY << 8);
+            return hashX;
+        }
+    };
+}
 int main()
 {
-    std::unordered_map<Vec2, std::string, HashVec2> unordered_map =
+    std::unordered_map<Vei2, std::string> unordered_map =
     {
         { {2, 23}, "two"},
         { {1, 20}, "one"},
